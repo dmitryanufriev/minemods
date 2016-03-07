@@ -16,7 +16,7 @@ module Services {
             var deferred = self.$q.defer();
             var modalInstance = self.$uibModal.open({
                 animation: true,
-                templateUrl: 'confirm.html',
+                templateUrl: 'ui/templates/confirmDeleteMod.html',
                 controller: "deleteModConfirmationCtrl",
                 size: "lg",
                 resolve: {

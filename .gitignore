@@ -1,6 +1,9 @@
 .vscode
 bower_components
 node_modules
-typings
+typings/main.d.ts
+typings/browser.d.ts
+typings/browser
+typings/main
 dist/**/*.js
 settings.json

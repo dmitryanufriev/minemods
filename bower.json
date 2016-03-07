@@ -1,0 +1,9 @@
+{
+    "name": "minemods",
+    "dependencies": {
+        "angular": "1.4.9",
+        "jquery": "1.12.1",
+        "bootstrap": "3.3.6",
+        "angular-bootstrap": "1.2.2"
+    }
+}

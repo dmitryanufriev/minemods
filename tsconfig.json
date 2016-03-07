@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "rootDir": "src",
+        "outDir": "dist",
+        "removeComments": true
+    },
+    "exclude": [
+        ".vscode",
+        "bower_components",
+        "dist",
+        "node_modules",
+        "typings"
+    ]
+}

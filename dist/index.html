@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minecraft Mods</title>
+    <link type="text/css" rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body ng-app='minemods-ui'>
+    <!-- HEADER -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" title="О программе">Моды для Minecraft</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <button type="button" class="btn btn-default navbar-btn" data-toggle="button" aria-pressed="false" autocomplete="off" title="Настройки">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- HEADER -->
+
+    <!-- CONTENT -->
+    <div class="container-fluid">
+        <div class="row" ng-controller="tabsCtrl" ng-switch="subview">
+            <div class="col-xs-12">
+                <!-- TABS -->
+                <ul class="nav nav-pills">
+                    <li role="presentation" ng-repeat="tab in tabs" ng-class="{active: tab.isActive}">
+                        <a href="#" ng-click="controller.setSelectedTab(tab)">{{ tab.title }}</a>
+                    </li>
+                </ul>
+                <!-- TABS -->
+                <br/>
+                <!-- LOCAL MODS -->
+                <table class="table table-hover" ng-switch-when="local" ng-controller="localModsCtrl">
+                    <tr ng-repeat="mod in mods">
+                        <td style="vertical-align: middle;">{{ mod.name }}</td>
+                        <td>
+                            <button type="button" class="btn btn-danger pull-right" ng-click="controller.deleteMod(mod)" title="Удалить мод с моего компьютера">
+                                Удалить
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                <!-- LOCAL MODS -->
+                <!-- SHARED MODS -->
+                <table class="table table-hover" ng-switch-when="shared" ng-controller="sharedModsCtrl">
+                    <tr ng-repeat="mod in mods" ng-switch="mod.isInstalled">
+                        <td style="vertical-align: middle; width: 20px;">
+                            <a href="#" ng-click="controller.searchModInfo(mod)">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            {{ mod.name }}
+                            <span class="label label-warning" ng-switch-when="false">не установлен</span>
+                            <span class="label label-success" ng-switch-when="true">установлен</span>
+                        </td>
+                        <td ng-switch-when="true">
+                            <button type="button" class="btn btn-danger pull-right" ng-click="controller.deleteMod(mod)" title="Удалить мод с моего компьютера">
+                                Удалить
+                            </button>
+                        </td>
+                        <td ng-switch-when="false">
+                            <button type="button" class="btn btn-primary pull-right" ng-click="controller.installMod(mod)" ng-disabled="isInstalling(mod)" title="Установить мод на мой компьютер">
+                                Установить
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                <!-- SHARED MODS -->
+                <!-- MODAL  -->
+                <script type="text/ng-template" id="confirm.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Подтвердите удаление</h3>
+                    </div>
+                    <div class="modal-body">
+                        Удалить мод <strong>{{ mod.name }}</strong> с этого компьютера?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="button" ng-click="controller.apply()">Удалить</button>
+                        <button class="btn btn-default" type="button" ng-click="controller.cancel()">Отмена</button>
+                    </div>
+                </script>
+                <!-- MODAL  -->
+            </div>
+        </div>
+    </div>
+    <!-- CONTENT -->
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script>
+        window.jQuery = window.$ = module.exports;
+    </script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="ui/app.js"></script>
+    <script src="ui/services/mods.js"></script>
+    <script src="ui/controllers/tabs.js"></script>
+    <script src="ui/controllers/localMods.js"></script>
+    <script src="ui/controllers/deleteModConfirmation.js"></script>
+    <script src="ui/controllers/sharedMods.js"></script>
+</body>
+
+</html>

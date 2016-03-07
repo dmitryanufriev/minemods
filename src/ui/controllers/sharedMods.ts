@@ -14,13 +14,13 @@ module Controllers {
     export class SharedModsCtrl {
 
         $scope: Scope;
-        $uibModal: ngBootstrap.IModalService;
+        deleteModConfirmation: Services.DeleteModConfirmation;
         modsService: Services.Mods;
 
-        constructor($scope: Scope, $uibModal: ngBootstrap.IModalService, modsService: Services.Mods) {
+        constructor($scope: Scope, deleteModConfirmation: Services.DeleteModConfirmation, modsService: Services.Mods) {
             this.$scope = $scope;
             this.$scope.controller = this;
-            this.$uibModal = $uibModal;
+            this.deleteModConfirmation = deleteModConfirmation;
             this.modsService = modsService;
 
             this.reloadMods();
@@ -37,19 +37,7 @@ module Controllers {
 
         deleteMod(mod: Models.Minecraft.Mod) {
             var self = this;
-            var modalInstance = self.$uibModal.open({
-                animation: true,
-                templateUrl: 'confirm.html',
-                controller: "deleteModConfirmationCtrl",
-                size: "lg",
-                resolve: {
-                    mod: function() {
-                        return mod;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function() {
+            self.deleteModConfirmation.confirmDeleteMod(mod).then(function() {
                 self.modsService.deleteLocalMod(mod).then(() => self.reloadMods());
             });
         }
@@ -74,4 +62,4 @@ module Controllers {
     }
 }
 
-App.Instance.controller('sharedModsCtrl', ['$scope', '$uibModal', 'modsService', Controllers.SharedModsCtrl]);
+App.Instance.controller('sharedModsCtrl', ['$scope', 'deleteModConfirmation', 'modsService', Controllers.SharedModsCtrl]);

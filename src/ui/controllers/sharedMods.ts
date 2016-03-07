@@ -2,13 +2,13 @@ module Controllers {
 
     import ngBootstrap = angular.ui.bootstrap;
 
-    interface ModViewModel extends Models.Minecraft.Mod {
+    interface ViewModel extends Models.Minecraft.Mod {
         isInstalled: boolean;
     }
 
     interface Scope extends ng.IScope {
         controller: SharedModsCtrl;
-        mods: Array<ModViewModel>;
+        mods: Array<ViewModel>;
     }
 
     export class SharedModsCtrl {
@@ -32,9 +32,7 @@ module Controllers {
 
         installMod(mod: Models.Minecraft.Mod) {
             var self = this;
-            self.modsService.installMod(mod).then(function() {
-                self.reloadMods();
-            });
+            self.modsService.installMod(mod).then(() => self.reloadMods());
         }
 
         deleteMod(mod: Models.Minecraft.Mod) {
@@ -52,9 +50,7 @@ module Controllers {
             });
 
             modalInstance.result.then(function() {
-                self.modsService.deleteLocalMod(mod).then(function() {
-                    self.reloadMods();
-                });
+                self.modsService.deleteLocalMod(mod).then(() => self.reloadMods());
             });
         }
 
@@ -63,7 +59,7 @@ module Controllers {
             self.modsService.getLocalMods().then(function(localMods) {
                 self.modsService.getSharedMods().then(function(sharedMods) {
                     self.$scope.mods = sharedMods.map(function(sharedMod) {
-                        var viewModel: ModViewModel = {
+                        var viewModel: ViewModel = {
                             name: sharedMod.name,
                             filename: sharedMod.filename,
                             isInstalled: localMods.some(function(localMod) {

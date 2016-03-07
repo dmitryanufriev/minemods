@@ -1,9 +1,4 @@
 module Controllers {
-    interface TabsCtrlScope extends ng.IScope {
-        subview: string;
-        tabs: Array<Tab>;
-        controller: TabsCtrl;
-    }
 
     interface Tab {
         name: string;
@@ -11,9 +6,17 @@ module Controllers {
         isActive: boolean;
     }
 
+    interface Scope extends ng.IScope {
+        subview: string;
+        tabs: Array<Tab>;
+        controller: TabsCtrl;
+    }
+
     export class TabsCtrl {
-        $scope: TabsCtrlScope;
-        constructor($scope: TabsCtrlScope) {
+
+        $scope: Scope;
+
+        constructor($scope: Scope) {
             this.$scope = $scope;
             this.$scope.controller = this;
             this.$scope.tabs = [
@@ -24,12 +27,9 @@ module Controllers {
         }
 
         setSelectedTab(tab: Tab): void {
-            this.$scope.tabs.forEach(function(tab) {
-                tab.isActive = false;
-            });
-
-            tab.isActive = true;
             this.$scope.subview = tab.name;
+            this.$scope.tabs.forEach((tab) => tab.isActive = false);
+            tab.isActive = true;
         }
     }
 }

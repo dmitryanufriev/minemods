@@ -23,9 +23,7 @@ module Controllers {
         private loadMods() {
             var z = 25;
             var self = this;
-            self.mods.getLocalMods().then(function(mods) {
-                self.$scope.mods = mods;
-            });
+            self.mods.getLocalMods().then((mods) => self.$scope.mods = mods);
         }
 
         private deleteMod(mod: Models.Minecraft.Mod) {
@@ -43,9 +41,7 @@ module Controllers {
             });
 
             modalInstance.result.then(function() {
-                self.mods.deleteLocalMod(mod).then(function(){
-                    self.loadMods();
-                });
+                self.mods.deleteLocalMod(mod).then(() => self.loadMods());
             });
         }
     }
